@@ -458,8 +458,8 @@ MonoBehaviour:
   - {fileID: 1735905059}
   - {fileID: 1454430212}
   startPoint: {fileID: 546204284}
-  duration: 2
-  delay: 1
+  duration: 0.2
+  delay: 0.05
   ease: 27
 --- !u!4 &295409774
 Transform:
