@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     public Vector2 friction = new Vector2(-.1f, 0);
 
     public float speed;
+    public float speedRun;
+    private float currentSpeed;
+
     public float forceJump;
 
     // Update is called once per frame
@@ -28,15 +31,24 @@ public class PlayerController : MonoBehaviour
 
     private void SideMovement()
     {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            currentSpeed = speedRun;
+        }
+        else
+        {
+            currentSpeed = speed;
+        }
+
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             // myRigidbody.MovePosition(myRigidbody.position - velocity * Time.deltaTime);
-            myRigidbody.velocity = new Vector2(-speed, myRigidbody.position.y);
+            myRigidbody.velocity = new Vector2(-currentSpeed, myRigidbody.position.y);
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             // myRigidbody.MovePosition(myRigidbody.position + velocity * Time.deltaTime);
-            myRigidbody.velocity = new Vector2(speed, myRigidbody.position.y);
+            myRigidbody.velocity = new Vector2(currentSpeed, myRigidbody.position.y);
         }
 
         if (myRigidbody.velocity.x < 0)
