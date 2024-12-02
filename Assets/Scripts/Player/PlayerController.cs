@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump")]
     public float forceJump;
+    private bool isJumping = false;
 
     [Header("Animation Setup")]
     public float jumpScaleY = 1.5f;
@@ -24,9 +25,23 @@ public class PlayerController : MonoBehaviour
 
     [Header("Animation")]
     public string boolRun = "Run";
+    public string triggerDeath = "Death";
     public Animator animator;
     public float swipeAnimation = .1f;
 
+    public HealthBase healthBase;
+    private void Awake()
+    {
+        if (healthBase != null)
+        {
+            healthBase.OnKill += OnPlayerKill;
+        }
+    }
+    private void OnPlayerKill()
+    {
+        healthBase.OnKill -= OnPlayerKill;
+        animator.SetTrigger(triggerDeath);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -40,11 +55,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             myRigidbody.velocity = Vector2.up * forceJump;
-            myRigidbody.transform.localScale = Vector2.one;
+            //myRigidbody.transform.localScale = Vector2.one;
 
-            DOTween.Kill(myRigidbody.transform);
+            //DOTween.Kill(myRigidbody.transform);
 
-            ScaleJump();
+            //ScaleJump();
         }
     }
 
@@ -104,5 +119,10 @@ public class PlayerController : MonoBehaviour
     {
         myRigidbody.transform.DOScaleY(jumpScaleY, animationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
         myRigidbody.transform.DOScaleX(jumpScaleX, animationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
+    }
+
+    public void DestroyMe()
+    {
+        Destroy(gameObject);
     }
 }
