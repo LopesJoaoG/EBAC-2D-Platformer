@@ -145,6 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   compareTag: Player
+  collectableTag: coins
+  amount: 1
 --- !u!210 &8570789382477798193
 SortingGroup:
   m_ObjectHideFlags: 0

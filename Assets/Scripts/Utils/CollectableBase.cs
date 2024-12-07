@@ -5,6 +5,7 @@ using UnityEngine;
 public class CollectableBase : MonoBehaviour
 {
     public string compareTag = "Player";
+    public string collectableTag;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

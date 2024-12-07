@@ -8,7 +8,8 @@ using Core.Singleton;
 public class ItemManager : MonoBehaviour
 {
     public TextMeshProUGUI UICoins;
-    public int coins;
+    public SOInt coins;
+    public SOInt purpleCoins;
     public static ItemManager instance;
 
     private void Awake()
@@ -29,17 +30,25 @@ public class ItemManager : MonoBehaviour
     }
     private void Reset()
     {
-        coins = 0;
+        coins.value = 0;
+        purpleCoins.value = 0;
     }
 
-    public void AddCoins(int amount = 1)
+    public void AddCoins(string type, int amount = 1)
     {
-        coins += amount;
+        if(type == "coins")
+        {
+            coins.value += amount;
+        }
+        else if (type == "purpleCoins")
+        {
+            purpleCoins.value += amount;
+        }
         UpdateInterfaceUI();
     }
 
     private void UpdateInterfaceUI()
     {
-        UICoins.text = "x " + coins.ToString();
+        //UICoins.text = "x " + coins.value.ToString();
     }
 }
