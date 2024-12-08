@@ -17,14 +17,7 @@ public class GunBase : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            _currentCoroutine = StartCoroutine(StartShoot());
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            if(_currentCoroutine != null)
-            {
-                StopCoroutine(_currentCoroutine);
-            }
+            Shoot();
         }
     }
 
