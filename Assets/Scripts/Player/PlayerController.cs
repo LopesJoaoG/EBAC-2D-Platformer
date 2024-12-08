@@ -19,7 +19,10 @@ public class PlayerController : MonoBehaviour
     public float distToGround;
     public float spaceToGround;
 
+    public ParticleSystem walkVFX;
     public ParticleSystem jumpVFX;
+
+    public AudioSource jumpAudioSource;
     private void Awake()
     {
         if (healthBase != null)
@@ -33,7 +36,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool isGrounded()
+    public bool isGrounded()
     {
         Debug.DrawRay(transform.position, -Vector2.up, Color.magenta, distToGround + spaceToGround);
         return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + spaceToGround);
@@ -63,12 +66,20 @@ public class PlayerController : MonoBehaviour
 
             //ScaleJump();
             PlayJumpVFX();
+            PlayJumpAudio();
         }
     }
 
     private void PlayJumpVFX()
     {
         if (jumpVFX != null) jumpVFX.Play();
+
+    }
+
+    private void PlayJumpAudio()
+    {
+        if (jumpAudioSource != null) jumpAudioSource.Play();
+
     }
 
     private void SideMovement()
@@ -87,7 +98,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             // myRigidbody.MovePosition(myRigidbody.position - velocity * Time.deltaTime);
-            myRigidbody.velocity = new Vector2(-currentSpeed, myRigidbody.position.y);
+            myRigidbody.velocity = new Vector2(-currentSpeed, myRigidbody.velocity.y);
 
             if (myRigidbody.transform.localScale.x != -1)
             {
@@ -99,7 +110,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             // myRigidbody.MovePosition(myRigidbody.position + velocity * Time.deltaTime);
-            myRigidbody.velocity = new Vector2(currentSpeed, myRigidbody.position.y);
+            myRigidbody.velocity = new Vector2(currentSpeed, myRigidbody.velocity.y);
 
             if (myRigidbody.transform.localScale.x != 1)
             {
@@ -120,6 +131,11 @@ public class PlayerController : MonoBehaviour
         else if (myRigidbody.velocity.x > 0)
         {
             myRigidbody.velocity += playerSetup.friction;
+        }
+
+        if (isGrounded())
+        {
+            if (walkVFX != null) walkVFX.Play();
         }
     }
 

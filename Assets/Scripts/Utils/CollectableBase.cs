@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class CollectableBase : MonoBehaviour
 {
+    [Header("Sounds")]
+    public AudioSource audioSource;
+
+
     public string compareTag = "Player";
     public string collectableTag;
     public ParticleSystem coinsparticleSystem;
     public GameObject graphicItem;
 
+    
+
+
     public void Awake()
     {
         if (coinsparticleSystem != null) coinsparticleSystem.transform.SetParent(null);
+        if (audioSource != null) audioSource.transform.SetParent(null);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -28,5 +36,8 @@ public class CollectableBase : MonoBehaviour
 
     protected virtual void OnCollect()
 
-    { if (coinsparticleSystem != null) coinsparticleSystem.Play(); }
+    {
+        if (coinsparticleSystem != null) coinsparticleSystem.Play();
+        if (audioSource != null) audioSource.Play();
+    }
 }
