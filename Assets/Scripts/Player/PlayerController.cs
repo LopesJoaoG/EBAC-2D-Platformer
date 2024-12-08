@@ -14,12 +14,29 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
     public HealthBase healthBase;
+
+    public Collider2D collider2d;
+    public float distToGround;
+    public float spaceToGround;
+
+    public ParticleSystem jumpVFX;
     private void Awake()
     {
         if (healthBase != null)
         {
             healthBase.OnKill += OnPlayerKill;
         }
+
+        if(collider2d != null)
+        {
+            distToGround = collider2d.bounds.extents.y;
+        }
+    }
+
+    private bool isGrounded()
+    {
+        Debug.DrawRay(transform.position, -Vector2.up, Color.magenta, distToGround + spaceToGround);
+        return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + spaceToGround);
     }
     private void OnPlayerKill()
     {
@@ -29,6 +46,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isGrounded();
         Jump();
         SideMovement();
         
@@ -36,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded())
         {
             myRigidbody.velocity = Vector2.up * playerSetup.forceJump;
             //myRigidbody.transform.localScale = Vector2.one;
@@ -44,7 +62,13 @@ public class PlayerController : MonoBehaviour
             //DOTween.Kill(myRigidbody.transform);
 
             //ScaleJump();
+            PlayJumpVFX();
         }
+    }
+
+    private void PlayJumpVFX()
+    {
+        if (jumpVFX != null) jumpVFX.Play();
     }
 
     private void SideMovement()
